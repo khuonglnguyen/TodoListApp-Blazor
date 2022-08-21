@@ -1,8 +1,9 @@
-﻿namespace TodoListApp.API.Repositories
+﻿
+namespace TodoListApp.API.Repositories
 {
     public interface ITaskRepository
     {
-        Task<IEnumerable<Entities.Task>> GetTaskList();
+        Task<IEnumerable<Task>> GetTaskList();
 
         Task<Entities.Task> Create(Entities.Task task);
 

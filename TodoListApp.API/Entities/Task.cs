@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using TodoListApp.API.Enums;
+using TodoList.Models.Enums;
 
 namespace TodoListApp.API.Entities
 {
