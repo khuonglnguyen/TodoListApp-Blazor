@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using TodoListApp.API.Data;
+using TodoListApp.API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +17,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+app.MigrateDbContext<TodoListDbContext>((context, services) =>
+{
+    var logger = services.GetService<ILogger<TodoListDbContextSeed>>();
+    new TodoListDbContextSeed().SeedAsync(context, logger).Wait();
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
