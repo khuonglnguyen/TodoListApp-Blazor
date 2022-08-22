@@ -2,6 +2,38 @@
 
 <h3>TodoList</h3>
 
-@code {
+@if (Tasks == null)
+{
+    <div>Loading</div>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Priority
+                </th>
+                <th>Assignee</th>
+                <th>Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Tasks)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Priority</td>
+                    <td>@item.AssigneeName</td>
+                    <td>@item.CreatedDate.ToString("dd/MM/yyy hh:mm")</td>
+                    <td>@item.Status</td>
+                </tr>
+            }
 
+        </tbody>
+    </table>
 }

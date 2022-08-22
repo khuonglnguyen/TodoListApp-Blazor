@@ -3,7 +3,7 @@ namespace TodoListApp.API.Repositories
 {
     public interface ITaskRepository
     {
-        Task<IEnumerable<Task>> GetTaskList();
+        Task<IEnumerable<Entities.Task>> GetTaskList();
 
         Task<Entities.Task> Create(Entities.Task task);
 

@@ -6,6 +6,7 @@ namespace TodoListApp.API.Entities
 {
     public class Task
     {
+        [Key]
         public Guid Id { get; set; }
         [Required]
         [MaxLength(100)]
