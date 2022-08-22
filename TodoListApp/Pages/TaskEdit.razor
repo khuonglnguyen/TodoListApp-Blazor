@@ -1,0 +1,71 @@
+﻿@page "/task-edit/{TaskId}"
+
+@using TodoList.Models
+@using TodoList.Models.Enums
+@using TodoListApp.Components
+@using TodoListApp.Services
+
+@inject ITaskApiClient TaskApiClient
+@inject NavigationManager NavigationManager
+@inject IToastService toastService
+
+@if (Task == null)
+{
+    <Loading />
+}
+else
+{
+    <h3>Edit Task: @Task.Name</h3>
+    <EditForm Model="Task" OnValidSubmit="SubmitTask">
+        <DataAnnotationsValidator></DataAnnotationsValidator>
+        <div class="form-group">
+            <label for="Name">Name</label>
+            <InputText class="form-control" @bind-Value="Task.Name"></InputText>
+            <ValidationMessage For="()=>Task.Name"></ValidationMessage>
+            <small id="nameHelp" class="form-text text-muted">Please enter task title here.</small>
+        </div>
+        <div class="form-group">
+            <label for="Name">Priority</label>
+            <InputSelect class="form-control" @bind-Value="Task.Priority">
+                <option>Select a priority</option>
+                @foreach (string item in Enum.GetNames(typeof(Priority)))
+                {
+                    <option value="@item">@item</option>
+                }
+            </InputSelect>
+            <ValidationMessage For="()=>Task.Priority"></ValidationMessage>
+            <small id="nameHelp" class="form-text text-muted">Choose a priority which you want.</small>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </EditForm>
+}
+
+
+@code {
+    private TaskUpdateRequest Task;
+
+    [Parameter]
+    public string TaskId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var taskDto = await TaskApiClient.GetTaskDetail(TaskId);
+        Task = new TaskUpdateRequest();
+        Task.Name = taskDto.Name;
+        Task.Priority = taskDto.Priority;
+    }
+
+    private async Task SubmitTask(EditContext context)
+    {
+        var result = await TaskApiClient.UpdateTask(Guid.Parse(TaskId), Task);
+        if (result)
+        {
+            toastService.ShowInfo("Successfully!");
+            NavigationManager.NavigateTo("/task-list");
+        }
+        else
+        {
+            toastService.ShowError("Error!");
+        }
+    }
+}

@@ -56,7 +56,7 @@ namespace TodoListApp.API.Controllers
 
         [HttpPut]
         [Route("{id}")]
-        public async Task<IActionResult> Update(Guid id, TaskUpdateRequest request)
+        public async Task<IActionResult> Update(Guid id, [FromBody] TaskUpdateRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);

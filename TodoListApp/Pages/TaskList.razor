@@ -65,6 +65,7 @@ else
                     <th>Date</th>
                     <th>Status</th>
                     <th></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -77,6 +78,7 @@ else
                         <td>@item.CreatedDate.ToString(Configuration.GetValue<string>("DateTimeFormat"))</td>
                         <td><PriorityLabel Priority="item.Priority"></PriorityLabel></td>
                         <td><a href="/task-details/@item.Id">Detail</a></td>
+                        <td><a href="/task-edit/@item.Id">Edit</a></td>
                     </tr>
                 }
 

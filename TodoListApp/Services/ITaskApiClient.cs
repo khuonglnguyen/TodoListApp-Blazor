@@ -8,5 +8,6 @@ namespace TodoListApp.Services
         Task<TaskDto> GetTaskDetail(string id);
         Task<List<TaskDto>> GetTaskList(TaskListSearch taskListSearch);
         Task<bool> CreateTask(TaskCreateRequest request);
+        Task<bool> UpdateTask(Guid id, TaskUpdateRequest request);
     }
 }
