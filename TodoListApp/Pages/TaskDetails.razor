@@ -1,8 +1,46 @@
 ﻿@page "/task-details/{TaskId}"
+@using TodoList.Models
+@using TodoListApp.Services
+@inject ITaskApiClient TaskApiClient
 
 <h3>Task Detail @TaskId</h3>
+@if (taskDto == null)
+{
+    <LoadingIndicator></LoadingIndicator>
+}
+else
+{
+    <h3>Task @taskDto.Name</h3>
+    <table class="table">
+        <tr>
+            <td>Name</td>
+            <td>@taskDto.Name</td>
+        </tr>
+        <tr>
+            <td>Assignee</td>
+            <td>@taskDto.AssigneeName</td>
+        </tr>
+        <tr>
+            <td>Create date</td>
+            <td>@taskDto.CreatedDate</td>
+        </tr>
+        <tr>
+            <td>Priority</td>
+            <td>@taskDto.Priority</td>
+        </tr>
+        <tr>
+            <td>Status</td>
+            <td>@taskDto.Status</td>
+        </tr>
+    </table>
+}
 
 @code {
     [Parameter]
     public string TaskId { get; set; }
+    private TaskDto taskDto { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        taskDto = await TaskApiClient.GetTaskDetail(TaskId);
+    }
 }

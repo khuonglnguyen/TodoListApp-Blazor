@@ -4,7 +4,7 @@ using TodoListApp.Services;
 
 namespace TodoListApp.Pages
 {
-    public partial class TodoList
+    public partial class TaskList
     {
         [Inject] private ITaskApiClient taskApiClient { get; set; }
         private List<TaskDto> Tasks;
