@@ -13,9 +13,9 @@ namespace TodoList.Models
         public Guid Id { get; set; } = new Guid();
 
         [MaxLength(250)]
-        [Required]
+        [Required(ErrorMessage = "This field is required")]
         public string Name { get; set; }
-
-        public Priority Priority { get; set; }
+        [Required]
+        public Priority? Priority { get; set; }
     }
 }

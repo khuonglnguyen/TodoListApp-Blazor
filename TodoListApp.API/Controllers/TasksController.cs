@@ -45,7 +45,7 @@ namespace TodoListApp.API.Controllers
             var task = await _taskRepository.Create(new Entities.Task()
             {
                 Name = request.Name,
-                Priority = request.Priority,
+                Priority = request.Priority.HasValue ? request.Priority.Value : Priority.Low,
                 Status = Status.Open,
                 CreatedDate = DateTime.Now,
                 Id = request.Id
