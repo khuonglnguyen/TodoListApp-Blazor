@@ -9,7 +9,7 @@ namespace TodoList.Models
 {
     public class TaskListSearch
     {
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         public Guid? AssigneeId { get; set; }
 

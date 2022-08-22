@@ -1,9 +1,11 @@
 ﻿
+using TodoList.Models;
+
 namespace TodoListApp.API.Repositories
 {
     public interface ITaskRepository
     {
-        Task<IEnumerable<Entities.Task>> GetTaskList();
+        Task<IEnumerable<Entities.Task>> GetTaskList(TaskListSearch taskListSearch);
 
         Task<Entities.Task> Create(Entities.Task task);
 

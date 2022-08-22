@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TodoList.Models;
 using TodoListApp.API.Data;
 
 namespace TodoListApp.API.Repositories
@@ -11,9 +12,24 @@ namespace TodoListApp.API.Repositories
         {
             _context = context;
         }
-        public async Task<IEnumerable<Entities.Task>> GetTaskList()
+        public async Task<IEnumerable<Entities.Task>> GetTaskList(TaskListSearch taskListSearch)
         {
-            return await _context.Tasks.ToListAsync();
+
+            var query = _context.Tasks.Include(x => x.Assignee).AsQueryable();
+            if (!string.IsNullOrEmpty(taskListSearch.Name))
+            {
+                query = query.Where(x => x.Name.Contains(taskListSearch.Name));
+            }
+            if (taskListSearch.AssigneeId.HasValue)
+            {
+                query = query.Where(x => x.AssigneeId == taskListSearch.AssigneeId.Value);
+            }
+            if (taskListSearch.Priority.HasValue)
+            {
+                query = query.Where(x => x.Priority == taskListSearch.Priority.Value);
+            }
+
+            return await query.ToListAsync();
         }
 
         public async Task<Entities.Task> Create(Entities.Task task)
