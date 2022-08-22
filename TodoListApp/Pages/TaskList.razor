@@ -1,55 +1,18 @@
 ﻿@page "/task-list"
-@using TodoList.Models.Enums
 @using TodoListApp.Components
 
 @inject IConfiguration Configuration
 
 <h3>TodoList</h3>
 
-@if (Tasks == null || Assignees == null)
+@if (Tasks == null)
 {
     <Loading></Loading>
 }
 else
 {
     <div class="row">
-        <EditForm Model="@TaskListSearch" OnSubmit="SearchForm">
-            <div class="row">
-                <div class="col">
-                    <label>Name</label>
-                    <InputText class="form-control" @bind-Value="TaskListSearch.Name"></InputText>
-                </div>
-
-                <div class="col">
-                    <label>Assignee</label>
-                    <InputSelect class="form-control" @bind-Value="TaskListSearch.AssigneeId">
-                        <option>Select an assignee</option>
-                        @foreach (var assignee in Assignees)
-                        {
-                            <option value="@assignee.Id">@assignee.FullName</option>
-                        }
-                    </InputSelect>
-                </div>
-
-                <div class="col">
-                    <label>Priority</label>
-                    <InputSelect class="form-control" @bind-Value="TaskListSearch.Priority">
-                        <option>Select a priority</option>
-                        @foreach (string item in Enum.GetNames(typeof(Priority)))
-                        {
-                            <option value="@item">@item</option>
-                        }
-                    </InputSelect>
-                </div>
-
-                <div class="col pt-4">
-                    <button type="submit" class="btn btn-primary">Search</button>
-                </div>
-                <div class="col pt-4">
-                    <a href="task-create" class="btn btn-success">Create</a>
-                </div>
-            </div>
-        </EditForm>
+          <TaskSearch OnSearch="SearchTask"></TaskSearch>
     </div>
     <div class="row mt-4">
         <table class="table">
