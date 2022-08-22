@@ -1,12 +1,13 @@
 ﻿@page "/task-details/{TaskId}"
 @using TodoList.Models
+@using TodoListApp.Components
 @using TodoListApp.Services
 @inject ITaskApiClient TaskApiClient
 
 <h3>Task Detail @TaskId</h3>
 @if (taskDto == null)
 {
-    <LoadingIndicator></LoadingIndicator>
+    <Loading></Loading>
 }
 else
 {
@@ -26,11 +27,11 @@ else
         </tr>
         <tr>
             <td>Priority</td>
-            <td>@taskDto.Priority</td>
+            <td><PriorityLabel Priority="taskDto.Priority"></PriorityLabel></td>
         </tr>
         <tr>
             <td>Status</td>
-            <td>@taskDto.Status</td>
+            <td><StatusLabel Status="taskDto.Status"></StatusLabel></td>
         </tr>
     </table>
 }
