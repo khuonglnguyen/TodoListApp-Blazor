@@ -2,6 +2,8 @@
 @using TodoList.Models.Enums
 @using TodoListApp.Components
 
+@inject IConfiguration Configuration
+
 <h3>TodoList</h3>
 
 @if (Tasks == null || Assignees == null)
@@ -72,7 +74,7 @@ else
                         <td>@item.Name</td>
                         <td>@item.Priority</td>
                         <td>@item.AssigneeName</td>
-                        <td>@item.CreatedDate.ToString("dd/MM/yyy hh:mm")</td>
+                        <td>@item.CreatedDate.ToString(Configuration.GetValue<string>("DateTimeFormat"))</td>
                         <td><PriorityLabel Priority="item.Priority"></PriorityLabel></td>
                         <td><a href="/task-details/@item.Id">Detail</a></td>
                     </tr>
