@@ -1,0 +1,8 @@
+﻿@page "/task-details/{TaskId}"
+
+<h3>Task Detail @TaskId</h3>
+
+@code {
+    [Parameter]
+    public string TaskId { get; set; }
+}
