@@ -1,9 +1,12 @@
 ﻿@page "/task-create"
+
 @using TodoList.Models
 @using TodoList.Models.Enums
 @using TodoListApp.Services
+
 @inject ITaskApiClient TaskApiClient
-@inject NavigationManager NavigationManager;
+@inject NavigationManager NavigationManager
+@inject IToastService toastService
 
 <h3>Create Task</h3>
 <EditForm Model="Task" OnValidSubmit="SubmitTask">
@@ -36,8 +39,12 @@
     {
         var result = await TaskApiClient.CreateTask(Task);
         if (result)
-        {   
+        {
+            toastService.ShowInfo("Successfully!");
             NavigationManager.NavigateTo("/task-list");
+        }else
+        {
+            toastService.ShowError("Error!");
         }
     }
 }
