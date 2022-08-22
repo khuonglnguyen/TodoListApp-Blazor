@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodoListApp", "TodoListApp\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodoListApp.API", "TodoListApp.API\TodoListApp.API.csproj", "{B98FD611-E6B1-4AA1-8571-7C3510FD79D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoList.Models", "TodoList.Models\TodoList.Models.csproj", "{08F1AF1E-C782-411A-BB62-2EA86E29F738}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodoList.Models", "TodoList.Models\TodoList.Models.csproj", "{08F1AF1E-C782-411A-BB62-2EA86E29F738}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

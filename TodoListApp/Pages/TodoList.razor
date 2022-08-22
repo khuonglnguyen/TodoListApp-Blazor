@@ -1,10 +1,11 @@
 ﻿@page "/todo-list"
+@using TodoListApp.Components
 
 <h3>TodoList</h3>
 
 @if (Tasks == null)
 {
-    <div>Loading</div>
+   <Loading></Loading>
 }
 else
 {
