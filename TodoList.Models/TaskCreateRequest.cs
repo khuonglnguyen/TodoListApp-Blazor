@@ -10,7 +10,7 @@ namespace TodoList.Models
 {
     public class TaskCreateRequest
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = new Guid();
 
         [MaxLength(250)]
         [Required]
