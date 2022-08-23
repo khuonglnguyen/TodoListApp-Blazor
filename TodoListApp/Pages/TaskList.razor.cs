@@ -5,6 +5,7 @@ using TodoList.Models.SeedWork;
 using TodoListApp.Components;
 using TodoListApp.Pages.Components;
 using TodoListApp.Services;
+using TodoListApp.Shared;
 
 namespace TodoListApp.Pages
 {
@@ -18,6 +19,9 @@ namespace TodoListApp.Pages
 
         protected Confirmation DeleteConfirmation { get; set; }
         protected AssignTask AssignTaskDialog { get; set; }
+
+        [CascadingParameter]
+        private Error Error{ get; set; }
         public MetaData MetaData { get; set; } = new MetaData();
 
 
@@ -64,9 +68,16 @@ namespace TodoListApp.Pages
 
         private async Task GetTasks()
         {
-            var pagingResponse = await TaskApiClient.GetTaskList(TaskListSearch);
-            Tasks = pagingResponse.Items;
-            MetaData = pagingResponse.MetaData;
+            try
+            {
+                var pagingResponse = await TaskApiClient.GetTaskList(TaskListSearch);
+                Tasks = pagingResponse.Items;
+                MetaData = pagingResponse.MetaData;
+            }
+            catch (Exception ex)
+            {
+                Error.ProcessError(ex);
+            }
         }
 
         private async Task SelectedPage(int page)
