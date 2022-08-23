@@ -1,5 +1,6 @@
 ﻿@page "/task-list"
 @using TodoListApp.Components
+@using TodoListApp.Pages.Components
 
 @inject IConfiguration Configuration
 
@@ -37,7 +38,7 @@ else
                     <tr>
                         <td>@item.Name</td>
                         <td>@item.Priority</td>
-                        <td>@item.AssigneeName</td>
+                        <td><a style="cursor:pointer" @onclick="()=>OpenAssignPopup(item.Id)">@item.AssigneeName</a></td>
                         <td>@item.CreatedDate.ToString(Configuration.GetValue<string>("DateTimeFormat"))</td>
                         <td><PriorityLabel Priority="item.Priority"></PriorityLabel></td>
                         <td>
@@ -54,6 +55,7 @@ else
               ConfirmationTitle="Delete Task"
               @ref="DeleteConfirmation"
               ConfirmationChanged="OnConfirmDeleteTask"></Confirmation>
+    <AssignTask @ref="AssignTaskDialog" CloseEventCallbak="AssignTaskSuccess"></AssignTask>
 }
 
 @code {

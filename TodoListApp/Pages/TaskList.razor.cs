@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components.Forms;
 using TodoList.Models;
 using TodoListApp.Components;
+using TodoListApp.Pages.Components;
 using TodoListApp.Services;
 
 namespace TodoListApp.Pages
@@ -15,6 +16,7 @@ namespace TodoListApp.Pages
         private Guid DeleteId { get; set; }
 
         protected Confirmation DeleteConfirmation { get; set; }
+        protected AssignTask AssignTaskDialog { get; set; }
 
 
         private TaskListSearch TaskListSearch = new TaskListSearch();
@@ -41,6 +43,19 @@ namespace TodoListApp.Pages
             if (deleteConfirmed)
             {
                 await TaskApiClient.DeleteTask(DeleteId);
+                Tasks = await TaskApiClient.GetTaskList(TaskListSearch);
+            }
+        }
+
+        public void OpenAssignPopup(Guid id)
+        {
+            AssignTaskDialog.Show(id);
+        }
+
+        public async Task AssignTaskSuccess(bool result)
+        {
+            if (result)
+            {
                 Tasks = await TaskApiClient.GetTaskList(TaskListSearch);
             }
         }
