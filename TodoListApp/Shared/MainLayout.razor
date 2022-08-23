@@ -1,4 +1,5 @@
 ﻿@using Blazored.Toast.Configuration
+@using Microsoft.AspNetCore.Components.Authorization
 @inherits LayoutComponentBase
 <BlazoredToasts Position="ToastPosition.BottomRight"
                 Timeout="5"
@@ -15,8 +16,15 @@
 
     <main>
         <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-            <NavLink href="/login">Login</NavLink>
+            <AuthorizeView>
+                <Authorized>
+                    Hello, @context.User.Identity.Name
+                    <NavLink href="/logout">Logout</NavLink>
+                </Authorized>
+                <NotAuthorized>
+                    <NavLink href="/login">Login</NavLink>
+                </NotAuthorized>
+            </AuthorizeView>
         </div>
 
         <article class="content px-4">
