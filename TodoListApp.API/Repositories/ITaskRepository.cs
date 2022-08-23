@@ -15,5 +15,6 @@ namespace TodoListApp.API.Repositories
         Task<Entities.Task> Delete(Entities.Task task);
 
         Task<Entities.Task> GetById(Guid id);
+        Task<PagedList<Entities.Task>> GetTaskListByUserId(Guid userId, TaskListSearch taskListSearch);
     }
 }

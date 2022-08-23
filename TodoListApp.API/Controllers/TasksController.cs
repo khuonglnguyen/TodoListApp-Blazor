@@ -1,14 +1,18 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TodoList.Models;
 using TodoList.Models.Enums;
 using TodoList.Models.SeedWork;
+using TodoListApp.API.Extensions;
 using TodoListApp.API.Repositories;
 
 namespace TodoListApp.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class TasksController : ControllerBase
     {
         private readonly ITaskRepository _taskRepository;
@@ -157,5 +161,28 @@ namespace TodoListApp.API.Controllers
             });
         }
 
+        [HttpGet("me")]
+        public async Task<IActionResult> GetByAssigneeId([FromQuery] TaskListSearch taskListSearch)
+        {
+            var userId = User.GetUserId();
+            var pagedList = await _taskRepository.GetTaskListByUserId(Guid.Parse(userId), taskListSearch);
+            var taskDtos = pagedList.Items.Select(x => new TaskDto()
+            {
+                Status = x.Status,
+                Name = x.Name,
+                AssigneeId = x.AssigneeId,
+                CreatedDate = x.CreatedDate,
+                Priority = x.Priority,
+                Id = x.Id,
+                AssigneeName = x.Assignee != null ? x.Assignee.FirstName + ' ' + x.Assignee.LastName : "N/A"
+            });
+
+            return Ok(
+                    new PagedList<TaskDto>(taskDtos.ToList(),
+                        pagedList.MetaData.TotalCount,
+                        pagedList.MetaData.CurrentPage,
+                        pagedList.MetaData.PageSize)
+                );
+        }
     }
 }

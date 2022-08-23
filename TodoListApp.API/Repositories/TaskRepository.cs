@@ -62,5 +62,29 @@ namespace TodoListApp.API.Repositories
         {
             return await _context.Tasks.FindAsync(id);
         }
+
+        public async Task<PagedList<Entities.Task>> GetTaskListByUserId(Guid userId, TaskListSearch taskListSearch)
+        {
+            var query = _context.Tasks
+                    .Where(x => x.AssigneeId == userId)
+                 .Include(x => x.Assignee).AsQueryable();
+
+            if (!string.IsNullOrEmpty(taskListSearch.Name))
+                query = query.Where(x => x.Name.Contains(taskListSearch.Name));
+
+            if (taskListSearch.AssigneeId.HasValue)
+                query = query.Where(x => x.AssigneeId == taskListSearch.AssigneeId.Value);
+
+            if (taskListSearch.Priority.HasValue)
+                query = query.Where(x => x.Priority == taskListSearch.Priority.Value);
+
+            var count = await query.CountAsync();
+
+            var data = await query.OrderByDescending(x => x.CreatedDate)
+                .Skip((taskListSearch.PageNumber - 1) * taskListSearch.PageSize)
+                .Take(taskListSearch.PageSize)
+                .ToListAsync();
+            return new PagedList<Entities.Task>(data, count, taskListSearch.PageNumber, taskListSearch.PageSize);
+        }
     }
 }
