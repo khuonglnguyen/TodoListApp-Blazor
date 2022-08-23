@@ -1,5 +1,7 @@
-﻿using System.Net.Http.Json;
+﻿using Microsoft.AspNetCore.WebUtilities;
+using System.Net.Http.Json;
 using TodoList.Models;
+using TodoList.Models.SeedWork;
 
 namespace TodoListApp.Services
 {
@@ -22,10 +24,23 @@ namespace TodoListApp.Services
             var result = await _httpClient.GetFromJsonAsync<TaskDto>($"/api/tasks/{id}");
             return result;
         }
-        public async Task<List<TaskDto>> GetTaskList(TaskListSearch taskListSearch)
+        public async Task<PagedList<TaskDto>> GetTaskList(TaskListSearch taskListSearch)
         {
-            string url = $"/api/tasks?name={taskListSearch.Name}&assigneeId={taskListSearch.AssigneeId}&priority={taskListSearch.Priority}";
-            var result = await _httpClient.GetFromJsonAsync<List<TaskDto>>(url);
+            var queryStringParam = new Dictionary<string, string>
+            {
+                ["pageNumber"] = taskListSearch.PageNumber.ToString()
+            };
+
+            if (!string.IsNullOrEmpty(taskListSearch.Name))
+                queryStringParam.Add("name", taskListSearch.Name);
+            if (taskListSearch.AssigneeId.HasValue)
+                queryStringParam.Add("assigneeId", taskListSearch.AssigneeId.Value.ToString());
+            if (taskListSearch.Priority.HasValue)
+                queryStringParam.Add("priority", taskListSearch.Priority.Value.ToString());
+
+            string url = QueryHelpers.AddQueryString("/api/tasks", queryStringParam);
+
+            var result = await _httpClient.GetFromJsonAsync<PagedList<TaskDto>>(url);
             return result;
         }
         public async Task<bool> CreateTask(TaskCreateRequest request)

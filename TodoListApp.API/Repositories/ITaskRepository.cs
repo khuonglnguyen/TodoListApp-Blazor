@@ -1,11 +1,12 @@
 ﻿
 using TodoList.Models;
+using TodoList.Models.SeedWork;
 
 namespace TodoListApp.API.Repositories
 {
     public interface ITaskRepository
     {
-        Task<IEnumerable<Entities.Task>> GetTaskList(TaskListSearch taskListSearch);
+        Task<PagedList<Entities.Task>> GetTaskList(TaskListSearch taskListSearch);
 
         Task<Entities.Task> Create(Entities.Task task);
 
