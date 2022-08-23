@@ -12,7 +12,7 @@
 else
 {
     <div class="row">
-          <TaskSearch OnSearch="SearchTask"></TaskSearch>
+        <TaskSearch OnSearch="SearchTask"></TaskSearch>
     </div>
     <div class="row mt-4">
         <table class="table">
@@ -40,12 +40,22 @@ else
                         <td>@item.AssigneeName</td>
                         <td>@item.CreatedDate.ToString(Configuration.GetValue<string>("DateTimeFormat"))</td>
                         <td><PriorityLabel Priority="item.Priority"></PriorityLabel></td>
-                        <td><a href="/task-details/@item.Id">Detail</a></td>
-                        <td><a href="/task-edit/@item.Id">Edit</a></td>
+                        <td>
+                            <a href="/task-details/@item.Id" class="btn btn-info">Detail</a>
+                            <a href="/task-edit/@item.Id" class="btn btn-primary">Edit</a>
+                            <button class="btn btn-outline-danger" @onclick="()=> OnDeleteTask(item.Id)">Delete</button>
+                        </td>
                     </tr>
                 }
-
             </tbody>
         </table>
     </div>
+    <Confirmation ConfirmationMessage="Are you sure to delete"
+              ConfirmationTitle="Delete Task"
+              @ref="DeleteConfirmation"
+              ConfirmationChanged="OnConfirmDeleteTask"></Confirmation>
+}
+
+@code {
+
 }

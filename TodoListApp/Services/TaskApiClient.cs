@@ -39,5 +39,10 @@ namespace TodoListApp.Services
             var result = await _httpClient.PutAsJsonAsync($"/api/tasks/{id}", request);
             return result.IsSuccessStatusCode;
         }
+        public async Task<bool> DeleteTask(Guid id)
+        {
+            var result = await _httpClient.DeleteAsync($"/api/tasks/{id}");
+            return result.IsSuccessStatusCode;
+        }
     }
 }
